@@ -1,19 +1,47 @@
+const { ButtonStyle, ButtonBuilder } = require('discord.js')
 const Component = require('@structs/component')
 
-class Button extends Component {
+class ButtonOptions {
+    url
+    label
+    icon
     style
+    disabled
 
-    constructor (id, callback, style) {
+    constructor (label, icon, style, disabled, url) {
+        this.label = label
+        this.icon = icon
+        this.style = style || ButtonStyle.Primary
+        this.disabled = disabled || false
+        this.url = url || undefined
+    }
+}
+
+class Button extends Component {
+    options
+
+    constructor (id, options, callback) {
         super(id, callback)
-        this.style = style
+        this.options = options
     }
 
-    build () {
-        // TODO: build the component
-        return undefined
+    build (placeholder) {
+        if (!this.options) return undefined
+
+        const button = new ButtonBuilder()
+            .setLabel(this.options.label)
+            .setStyle(this.options.style)
+            .setDisabled(this.options.disabled)
+
+        if (this.options.url) button.setURL(this.options.url)
+        else button.setCustomId(`${this.id}${placeholder ? `%${placeholder}` : ''}`)
+
+        if (this.options.icon) button.setEmoji(this.options.icon)
+        return button
     }
 }
 
 module.exports = {
-    Button
+    Button,
+    ButtonOptions
 }

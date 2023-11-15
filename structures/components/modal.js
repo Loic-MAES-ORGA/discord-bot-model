@@ -1,19 +1,38 @@
+const { ModalBuilder, ActionRowBuilder } = require('discord.js')
 const Component = require('@structs/component')
+const { TextField } = require('@structs/components/textField')
+
+class ModalOptions {
+    title
+    fields = []
+
+    constructor (title, fields) {
+        this.title = title
+        this.fields = fields?.filter(field => field instanceof TextField).map(field => new ActionRowBuilder({
+            components: [
+                field.build()
+            ]
+        }))
+    }
+}
 
 class Modal extends Component {
-    fields
+    options
 
-    constructor (id, callback, fields) {
+    constructor (id, options, callback) {
         super (id, callback)
-        this.fields = fields || []
+        this.options = options
     }
 
-    build () {
-        // TODO: build the component
-        return undefined
+    build (placeholder) {
+        return new ModalBuilder()
+            .setCustomId(`${this.id}${placeholder ? `%${placeholder}` : ''}`)
+            .setTitle(this.options.title)
+            .setComponents(this.options.fields)
     }
 }
 
 module.exports = {
-    Modal
+    Modal,
+    ModalOptions
 }
