@@ -30,7 +30,7 @@
     "@events": "./events",
     "@handlers": "./handlers",
     "@commands": "./commands",
-    "@structs": "./sturctures",
+    "@structs": "./structures",
     "@components": "./components",
     "@components.menus": "./components/menus",
     "@components.modals": "./components/modals",
