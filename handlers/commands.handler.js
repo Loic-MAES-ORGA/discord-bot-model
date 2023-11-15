@@ -13,7 +13,7 @@ module.exports = bot => {
     files.forEach(file => {
         const command = require(`@commands/${file}`)
         bot.registerCommand(command)
-        table.addRow(command.name, command.options.length > 0 ? '✅' : '❌', '🔹 Loaded')
+        table.addRow(command.name, command.options?.length > 0 ? '✅' : '❌', '🔹 Loaded')
     })
 
     table.setHeading('Name', 'Has options', 'Status')

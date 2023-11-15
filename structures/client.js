@@ -1,9 +1,9 @@
 // Libs
 const { Client, Collection } = require('discord.js')
 // Types
-const Menu = require('@structs/components/menu')
-const Modal = require('@structs/components/modal')
-const Button = require('@structs/components/button')
+const { Menu } = require('@structs/components/menu')
+const { Modal } = require('@structs/components/modal')
+const { Button } = require('@structs/components/button')
 // Methods
 const registerEvents = require('@handlers/events.handler')
 const registerCommands = require('@handlers/commands.handler')
@@ -58,8 +58,8 @@ class Bot extends Client {
     }
 
     registerEvent (event) {
-        if (event.once) this.once(event.name, event.callback)
-        else this.on(event.name, event.callback)
+        if (event.once) this.once(event.name, event.callback.bind(null, this))
+        else this.on(event.name, event.callback.bind(null, this))
     }
 
     start (token) {
